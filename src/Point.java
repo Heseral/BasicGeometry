@@ -6,7 +6,7 @@ public class Point implements Figure {
         setX(x);
         setY(y);
     }
-
+    
     @Override
     public String toString() {
         return "Point(" + getX() + "; " + getY() + ")";
@@ -19,7 +19,7 @@ public class Point implements Figure {
 
     @Override
     public boolean isPointBelongsToFigure(double x, double y) {
-        return false;
+        return getX() == x && getY() == y;
     }
 
     @Override

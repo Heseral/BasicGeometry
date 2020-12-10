@@ -18,7 +18,8 @@ public class Line implements Figure {
 
     @Override
     public boolean isPointBelongsToFigure(double x, double y) {
-        return false;
+        return (x - getFirstPoint().getX()) / (getSecondPoint().getX() - getFirstPoint().getX())
+                == (y - getFirstPoint().getY()) / (getSecondPoint().getY() - getFirstPoint().getY());
     }
 
     @Override
