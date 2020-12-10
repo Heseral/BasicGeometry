@@ -6,7 +6,15 @@ public interface Figure {
     boolean isPointBelongsToFigure(double x, double y);
 
 
-    boolean intersects(Figure figure);
+    default boolean intersects(Figure figure) {
+        return intersects(figure.getClass().cast(figure));
+    }
+
+    boolean intersects(Point point);
+
+    boolean intersects(Line line);
+
+    boolean intersects(Polygon polygon);
 
     int isSuperimposedOn(Figure figure);
 }

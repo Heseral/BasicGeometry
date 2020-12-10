@@ -6,7 +6,7 @@ public class Point implements Figure {
         setX(x);
         setY(y);
     }
-    
+
     @Override
     public String toString() {
         return "Point(" + getX() + "; " + getY() + ")";
@@ -24,12 +24,27 @@ public class Point implements Figure {
 
     @Override
     public boolean intersects(Figure figure) {
-        return false;
+        return figure.isPointBelongsToFigure(this);
+    }
+
+    @Override
+    public boolean intersects(Point point) {
+        return equals(point);
+    }
+
+    @Override
+    public boolean intersects(Line line) {
+        return line.isPointBelongsToFigure(this);
+    }
+
+    @Override
+    public boolean intersects(Polygon polygon) {
+        return polygon.isPointBelongsToFigure(this);
     }
 
     @Override
     public int isSuperimposedOn(Figure figure) {
-        return 0;
+        return figure.isPointBelongsToFigure(this) ? 0 : -1;
     }
 
     public double getX() {

@@ -23,8 +23,25 @@ public class Line implements Figure {
     }
 
     @Override
-    public boolean intersects(Figure figure) {
-        return false;
+    public boolean intersects(Point point) {
+        return isPointBelongsToFigure(point);
+    }
+
+    @Override
+    public boolean intersects(Line line) {
+        if (getSecondPoint().getY() - getFirstPoint().getY() != 0) {
+            double q = (getSecondPoint().getX() - getFirstPoint().getX())
+                    / (getFirstPoint().getY() - getSecondPoint().getY());
+            double sn = (line.getFirstPoint().getX() - line.getSecondPoint().getX())
+                    + (line.getFirstPoint().getY() - line.getSecondPoint().getY()) * q;
+            return sn != 0;
+        }
+        return (line.getFirstPoint().getY() - line.getSecondPoint().getY()) != 0;
+    }
+
+    @Override
+    public boolean intersects(Polygon polygon) {
+        return polygon.intersects(this);
     }
 
     @Override

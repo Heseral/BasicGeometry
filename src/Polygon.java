@@ -54,11 +54,43 @@ public class Polygon implements Figure {
 
     @Override
     public boolean isPointBelongsToFigure(double x, double y) {
+        for (Line line : lines) {
+            if (line.isPointBelongsToFigure(x, y)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
-    public boolean intersects(Figure figure) {
+    public boolean intersects(Point point) {
+        for (Line line : getLines()) {
+            if (line.intersects(point)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean intersects(Line lineToCheck) {
+        for (Line line : getLines()) {
+            if (line.intersects(lineToCheck)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean intersects(Polygon polygon) {
+        for (Line firstLine : getLines()) {
+            for (Line secondLine : polygon.getLines()) {
+                if (firstLine.intersects(secondLine)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
