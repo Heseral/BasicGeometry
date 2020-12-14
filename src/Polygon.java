@@ -95,8 +95,28 @@ public class Polygon implements Figure {
     }
 
     @Override
-    public int isSuperimposedOn(Figure figure) {
+    public double isSuperimposedOn(Point point) {
         return 0;
+    }
+
+    @Override
+    public double isSuperimposedOn(Line line) {
+        int result = 0;
+        for (Line polygonLine : getLines()) {
+            result += line.isSuperimposedOn(polygonLine);
+        }
+        return result;
+    }
+
+    @Override
+    public double isSuperimposedOn(Polygon polygon) {
+        int result = 0;
+        for (Line firstPolygonLine : getLines()) {
+            for (Line secondPolygonLine : polygon.getLines()) {
+                result += firstPolygonLine.isSuperimposedOn(secondPolygonLine);
+            }
+        }
+        return result;
     }
 
     public List<Line> getLines() {

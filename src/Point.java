@@ -23,11 +23,6 @@ public class Point implements Figure {
     }
 
     @Override
-    public boolean intersects(Figure figure) {
-        return figure.isPointBelongsToFigure(this);
-    }
-
-    @Override
     public boolean intersects(Point point) {
         return equals(point);
     }
@@ -43,8 +38,18 @@ public class Point implements Figure {
     }
 
     @Override
-    public int isSuperimposedOn(Figure figure) {
-        return figure.isPointBelongsToFigure(this) ? 0 : -1;
+    public double isSuperimposedOn(Point point) {
+        return 0;
+    }
+
+    @Override
+    public double isSuperimposedOn(Line line) {
+        return 0;
+    }
+
+    @Override
+    public double isSuperimposedOn(Polygon polygon) {
+        return 0;
     }
 
     public double getX() {
