@@ -1,3 +1,5 @@
+package figure;
+
 public class Point implements Figure {
     private double x;
     private double y;
@@ -9,7 +11,7 @@ public class Point implements Figure {
 
     @Override
     public String toString() {
-        return "Point(" + getX() + "; " + getY() + ")";
+        return "Figure.Point(" + getX() + "; " + getY() + ")";
     }
 
     public boolean equals(Point point) {
@@ -20,6 +22,11 @@ public class Point implements Figure {
     @Override
     public boolean isPointBelongsToFigure(double x, double y) {
         return getX() == x && getY() == y;
+    }
+
+    @Override
+    public boolean intersects(Figure figure) {
+        return figure.intersects(this);
     }
 
     @Override
@@ -35,6 +42,11 @@ public class Point implements Figure {
     @Override
     public boolean intersects(Polygon polygon) {
         return polygon.isPointBelongsToFigure(this);
+    }
+
+    @Override
+    public double isSuperimposedOn(Figure figure) {
+        return figure.isSuperimposedOn(this);
     }
 
     @Override

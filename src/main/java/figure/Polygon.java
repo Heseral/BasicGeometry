@@ -1,3 +1,5 @@
+package figure;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -5,38 +7,54 @@ import java.util.List;
 public class Polygon implements Figure {
     private List<Line> lines = new ArrayList<>();
 
-    public Polygon(boolean safety, Line... lines) {
+    public Polygon(List<Line> lines, boolean safety) {
         if (!safety) {
-            setLines(Arrays.asList(lines));
+            setLines(lines);
             return;
         }
 
-        if (lines.length < 3) {
-            throw new IllegalArgumentException("An attempt to create a polygon with only " + lines.length + " lines.");
+        if (lines.size() < 3) {
+            throw new IllegalArgumentException("An attempt to create a polygon with only " + lines.size() + " lines.");
         }
 
-        for (int i = 1; i < lines.length; i++) {
-            if (!lines[i].getFirstPoint().equals(lines[i - 1].getSecondPoint())) {
-                throw new IllegalArgumentException("Wrong lines: the second " + lines[i] +
-                        " doesn't start from the end of the first " + lines[i] + ".");
+        for (int i = 1; i < lines.size(); i++) {
+            if (!lines.get(i).getFirstPoint().equals(lines.get(i - 1).getSecondPoint())) {
+                throw new IllegalArgumentException("Wrong lines: the second " + lines.get(i) +
+                        " doesn't start from the end of the first " + lines.get(i) + ".");
             }
         }
     }
 
-    public Polygon(boolean safety, Point... points) {
+    public Polygon(boolean safety, Line... lines) {
+        this(Arrays.asList(lines), safety);
+    }
+
+    public Polygon(boolean safety, List<Point> points) {
         if (!safety) {
-            for (int i = 1; i < points.length; i++) {
-                getLines().add(new Line(points[i], points[i - 1]));
+            for (int i = 1; i < points.size(); i++) {
+                getLines().add(new Line(points.get(i), points.get(i - 1)));
             }
             return;
         }
 
-        if (points.length < 3) {
-            throw new IllegalArgumentException("An attempt to create a polygon with only " + points.length + " points.");
+        if (points.size() < 3) {
+            throw new IllegalArgumentException("An attempt to create a polygon with only " + points.size() + " points.");
         }
-        for (int i = 1; i < points.length; i++) {
-            getLines().add(new Line(points[i], points[i - 1]));
+        for (int i = 1; i < points.size(); i++) {
+            getLines().add(new Line(points.get(i), points.get(i - 1)));
         }
+    }
+
+    public Polygon(Point... points) {
+        this(true, points);
+    }
+
+    public Polygon(List<Point> points) {
+        this(true, points);
+    }
+
+    public Polygon(boolean safety, Point... points) {
+        this(safety, Arrays.asList(points));
     }
 
     public Polygon(Line... lines) {
@@ -60,6 +78,11 @@ public class Polygon implements Figure {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean intersects(Figure figure) {
+        return figure.intersects(this);
     }
 
     @Override
@@ -95,6 +118,11 @@ public class Polygon implements Figure {
     }
 
     @Override
+    public double isSuperimposedOn(Figure figure) {
+        return figure.isSuperimposedOn(this);
+    }
+
+    @Override
     public double isSuperimposedOn(Point point) {
         return 0;
     }
@@ -113,6 +141,10 @@ public class Polygon implements Figure {
         int result = 0;
         for (Line firstPolygonLine : getLines()) {
             for (Line secondPolygonLine : polygon.getLines()) {
+                if (firstPolygonLine.isSuperimposedOn(secondPolygonLine) > 0) {
+                    result += firstPolygonLine.isSuperimposedOn(secondPolygonLine);
+                    continue;
+                }
                 result += firstPolygonLine.isSuperimposedOn(secondPolygonLine);
             }
         }
